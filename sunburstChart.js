@@ -35,7 +35,12 @@
 				var point = cartesianToPolar({x: event.clientX, y: event.clientY}, this.startingCoordinates);
 				var node = this.getNodeByPolarCoords(point, this.metaData.root, this.metaData);
 				if (node && node.data !== this.data) {
-						this.render(node.data !== this.rootNode ? node.data : this.data );
+						if (node.data !== this.rootNode.data) {
+								this.render(node);
+						} else {
+								this.pickColor(true); //colors will be picked from the beginning
+								this.render({ data: this.data });
+						}
 				}
 		}
 
@@ -45,11 +50,11 @@
 		 *  @param {Object} rootNode
 		 */
 		SunburstChart.prototype.render = function render(rootNode) {
-				this.rootNode = rootNode || this.rootNode || this.data;
+				this.rootNode = rootNode || this.rootNode || { data: this.data };
 
 				this.calculateStartingCoordinates();
 
-				var deep = this.maxDeep(this.rootNode);
+				var deep = this.maxDeep(this.rootNode.data);
 
 				this.calcMetadata(deep);
 				this.clearSvg();
@@ -135,10 +140,11 @@
 		 */
 		SunburstChart.prototype.calcMetadata = function(deep) {
 				var initialWidth = this.rootNodeWidth(deep);
+				var rootData = this.rootNode.data;
 				var metaRoot = {
 						root: {
-								data: this.rootNode,
-								color: this.pickColor(),
+								data: rootData,
+								color: this.rootNode.color || this.pickColor(),
 								angles: {
 										start: 0,
 										end: 360,
@@ -152,22 +158,25 @@
 				var self = this;
 				var sibling;
 
-				for (var i = 0, l = (this.rootNode.children || []).length; i < l; i++) {
-						if (this.rootNode.children[i].value > this.rootNode.value) {
-								console.error("Child value greater then the parent node value.", this.rootNode.children[i], this.rootNode);
+				var children = this.rootNode.children || rootData.children || [];
+				for (var i = 0, l = children.length; i < l; i++) {
+						var childrenData = children[i].data || children[i];
+						if (childrenData.value > rootData.value) {
+								console.error("Child value greater then the parent node value.", children[i], this.rootNode);
 								continue;
 						}
 
-						sibling = calcChildMetaData(this.rootNode.children[i], metaRoot.root, sibling, this.options.scale);
+						sibling = calcChildMetaData(children[i], metaRoot.root, sibling, this.options.scale);
 						metaRoot.root.children.push(sibling);
 				}
 
 				this.metaData = metaRoot;
 
 				function calcChildMetaData(childMeta, parentMeta, sibling, scale) {
+						var  childData = childMeta.data || childMeta;
 						var meta = {
-								data: childMeta,
-								color: self.pickColor(),
+								data: childData,
+								color: childMeta.color || self.pickColor(),
 								parent: parentMeta,
 								width: parentMeta.width / scale,
 								offset: parentMeta.offset + parentMeta.width,
@@ -175,7 +184,7 @@
 						};
 						var childSibling;
 
-						meta.angles ={ abs: parentMeta.angles.abs * childMeta.value / parentMeta.data.value };
+						meta.angles ={ abs: parentMeta.angles.abs * childData.value / parentMeta.data.value };
 						meta.angles.start = sibling ? sibling.angles.end : parentMeta.angles.start;
 						meta.angles.end = meta.angles.start + meta.angles.abs;
 
@@ -198,7 +207,8 @@
 				var colors = [ "#468966", "#FFF0A5", "#FFB03B", "#B64926", "#8E2800" ];
 				var i = 0;
 
-				return function() {
+				return function(restart) {
+						if (restart) { i = 0; return; }
 						return colors[i++ % colors.length];
 				}
 		})();
@@ -339,6 +349,8 @@
 				if (difY < 0) {
 						angle = 2 * Math.PI - angle;
 				}
+				// radians to degrees
+				angle = ((angle + Math.PI/2) * 180 / Math.PI) % 360;
 
 				return { dist: distance, angle: angle };
 		}
