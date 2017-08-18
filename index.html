@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Chart control testing page</title>
+    <script src="scripts/sunburstChart.js"></script>
+    <script src="scripts/chart-data.js"></script>
+  </head>
+
+  <body>
+    <div id="chart"></div>
+  </body>
+
+  <script>
+    var chart  = new SunburstChart(data, {
+      width: 800,
+      height: 600,
+      div: "chart"
+    });
+    chart.render();
+  </script>
+</html>
