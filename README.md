@@ -1,2 +1,3 @@
-# sunburst-chart-js
-Sunburst chart javascript control which uses svg to render the chart.
+# Demo page for SunburstChart.js
+
+This page is the demo page for demonstrating how SunburstChart is working.
