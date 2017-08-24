@@ -16,7 +16,7 @@ npm install sunburst-chart-js
 https://ikuznalex.github.io/sunburst-chart-js/
 
 The data for example was taken here:
-[flare.json]https://gist.githubusercontent.com/mbostock/1093025/raw/05621a578a66fba4d2cbf5a77e2d1bb3a27ac3d4/flare.json
+https://gist.githubusercontent.com/mbostock/1093025/raw/05621a578a66fba4d2cbf5a77e2d1bb3a27ac3d4/flare.json
 
 ## License
 
