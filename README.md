@@ -12,4 +12,6 @@ To use the chart just run the following command:
 npm install sunburst-chart-js
 ```
 
+## License
+
 This project is licensed under the terms of the MIT license.
