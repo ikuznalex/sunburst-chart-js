@@ -1,8 +1,8 @@
 # Sunburst chart
 
 sunburst-chart-js draws sunburst chart using SVG and javascript.
- 
-The control is not requires any additional libraries.
+
+The control doesn't require any additional libraries.
 
 ## Installation
 
