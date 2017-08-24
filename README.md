@@ -11,6 +11,9 @@ To use the chart just run the following command:
 ```javascript
 npm install sunburst-chart-js
 ```
+## Example
+
+https://ikuznalex.github.io/sunburst-chart-js/
 
 ## License
 
