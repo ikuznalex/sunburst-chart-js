@@ -56,6 +56,7 @@
 		this.rootNode = rootNode || this.rootNode || {data: this.data};
 
 		this.calculateStartingCoordinates();
+		this.countFoldersValue(this.data);
 
 		var deep = this.maxDeep(this.rootNode.data);
 
@@ -79,7 +80,9 @@
 
 		options = options || {};
 
-		drawPath(nodeMeta);
+		if (nodeMeta.data.value > 0) {
+			drawPath(nodeMeta);
+		}
 
 		if (options.children || options.children === undefined) {
 			for (var i = 0, l = (nodeMeta.children || []).length; i < l; i++) {
@@ -218,6 +221,23 @@
 			return colors[i++ % colors.length];
 		}
 	})();
+
+	/**
+	 * countFoldersValue() counts value of root parent nodes recursively based on child nodes.
+	 *
+	 * @param {Object} chartData
+	 */
+	SunburstChart.prototype.countFoldersValue =  function countFoldersValue(chartData) {
+		chartData.value = 0;
+		if (chartData.children.length >= 0) {
+			for (var max = chartData.children.length, i = 0; i < max; i++) {
+				chartData.value += chartData.children[i].children 
+					? countFoldersValue(chartData.children[i]) 
+					: chartData.children[i].value;
+			}
+		}
+		return chartData.value;
+	}
 
 	/**
 	 * calculateStartingCoordinates() calculates starting coordinate for drawing.
