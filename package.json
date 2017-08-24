@@ -1,0 +1,24 @@
+{
+  "name": "sunburst-chart-js",
+  "version": "0.3.0",
+  "description": "Sunburst svg chart",
+  "main": "sunburstChart.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ikuznalex/sunburst-chart-js.git"
+  },
+  "keywords": [
+    "sunburst",
+    "js",
+    "chart"
+  ],
+  "author": "Alexander Kuznetsov",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/ikuznalex/sunburst-chart-js/issues"
+  },
+  "homepage": "https://github.com/ikuznalex/sunburst-chart-js#readme"
+}
